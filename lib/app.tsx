@@ -92,7 +92,10 @@ export default class App extends PureComponent<AppProps, AppState> {
 
   handleRenderClick = () => {
     // console.log(this.state.editorContent)
-    window.parent.postMessage(this.state.editorContent, 'https://p5.widget.mixlab');
+    window.parent.postMessage({
+      code:this.state.editorContent,
+      from:'p5.widget'
+    }, '*');
 
   }
 
