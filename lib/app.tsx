@@ -93,8 +93,9 @@ export default class App extends PureComponent<AppProps, AppState> {
   handleRenderClick = () => {
     // console.log(this.state.editorContent)
     window.parent.postMessage({
-      code:this.state.editorContent,
-      from:'p5.widget'
+      code: this.state.editorContent,
+      from: 'p5.widget',
+      status: 'render'
     }, '*');
 
   }
