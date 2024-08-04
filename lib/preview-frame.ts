@@ -12,6 +12,7 @@ interface PreviewFrameWindow extends PreviewFrame.Runner {
   p5: (sketch?: Function, node?: HTMLElement, sync?: boolean) => void;
 }
 
+// @ts-ignore
 let global = window as PreviewFrameWindow;
 
 function loadScript(url, cb?: () => void) {

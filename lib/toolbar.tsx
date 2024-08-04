@@ -3,7 +3,7 @@ import React = require("react");
 import PureComponent from "./pure-component";
 
 interface Props {
-  onRenderClick: () => void,
+  
   onPlayClick: () => void,
   onStopClick?: () => void,
   onUndoClick?: () => void,
@@ -46,10 +46,7 @@ export default class Toolbar extends PureComponent<Props, State> {
         <a className="p5-logo" href="http://p5js.org/" target="_blank">
           <img src="static/img/p5js-beta.svg" alt="p5js.org"/>
         </a>
-        <button onClick={this.props.onRenderClick}>
-          <OpenIconicMediaPlay/>
-          Render
-        </button>
+      
         <button onClick={this.props.onPlayClick}>
           <OpenIconicMediaPlay/>
           Play

@@ -90,16 +90,7 @@ export default class App extends PureComponent<AppProps, AppState> {
     });
   }
 
-  handleRenderClick = () => {
-    // console.log(this.state.editorContent)
-    window.parent.postMessage({
-      code: this.state.editorContent,
-      from: 'p5.widget',
-      status: 'render'
-    }, '*');
-
-  }
-
+ 
   handlePlayClick = () => {
     this.setState((prevState, props) => ({
       isPlaying: true,
@@ -138,7 +129,7 @@ export default class App extends PureComponent<AppProps, AppState> {
     return (
       <div className="app">
         <Toolbar
-          onRenderClick={this.handleRenderClick}
+        
           onPlayClick={this.handlePlayClick}
           onStopClick={this.state.isPlaying && this.handleStopClick}
           onUndoClick={this.state.canUndo && this.handleUndoClick}
