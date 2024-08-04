@@ -65,7 +65,7 @@ export default class App extends PureComponent<AppProps, AppState> {
   }
 
   handleEditorChange = (newValue: string, canUndo: boolean,
-                        canRedo: boolean) => {
+    canRedo: boolean) => {
     this.setState({
       editorContent: newValue,
       canUndo: canUndo,
@@ -88,6 +88,12 @@ export default class App extends PureComponent<AppProps, AppState> {
       isPlaying: false,
       editorContent: this.props.initialContent
     });
+  }
+
+  handleRenderClick = () => {
+    // console.log(this.state.editorContent)
+    window.parent.postMessage(this.state.editorContent, 'https://p5.widget.mixlab');
+
   }
 
   handlePlayClick = () => {
@@ -121,39 +127,40 @@ export default class App extends PureComponent<AppProps, AppState> {
     let canRevert = (this.state.editorContent !== this.props.initialContent);
 
     if (this.state.lastError &&
-        this.state.editorContent === this.state.previewContent) {
+      this.state.editorContent === this.state.previewContent) {
       errorLine = this.state.lastError.line;
     }
 
     return (
       <div className="app">
         <Toolbar
-         onPlayClick={this.handlePlayClick}
-         onStopClick={this.state.isPlaying && this.handleStopClick}
-         onUndoClick={this.state.canUndo && this.handleUndoClick}
-         onRedoClick={this.state.canRedo && this.handleRedoClick}
-         onRevertClick={canRevert && this.handleRevertClick} />
+          onRenderClick={this.handleRenderClick}
+          onPlayClick={this.handlePlayClick}
+          onStopClick={this.state.isPlaying && this.handleStopClick}
+          onUndoClick={this.state.canUndo && this.handleUndoClick}
+          onRedoClick={this.state.canRedo && this.handleRedoClick}
+          onRevertClick={canRevert && this.handleRevertClick} />
         <div className="panes">
           <Editor ref="editor"
-                  content={this.state.editorContent}
-                  errorLine={errorLine}
-                  onChange={this.handleEditorChange} />
+            content={this.state.editorContent}
+            errorLine={errorLine}
+            onChange={this.handleEditorChange} />
           <div className="preview-holder-wrapper">
-          {this.state.isPlaying
-            ? <Preview content={this.state.previewContent}
-                       baseSketchURL={this.props.baseSketchURL}
-                       p5version={this.props.p5version}
-                       maxRunTime={this.props.maxRunTime}
-                       width={this.props.previewWidth}
-                       timestamp={this.state.startPlayTimestamp}
-                       onError={this.handlePreviewError} />
-            : null}
+            {this.state.isPlaying
+              ? <Preview content={this.state.previewContent}
+                baseSketchURL={this.props.baseSketchURL}
+                p5version={this.props.p5version}
+                maxRunTime={this.props.maxRunTime}
+                width={this.props.previewWidth}
+                timestamp={this.state.startPlayTimestamp}
+                onError={this.handlePreviewError} />
+              : null}
           </div>
         </div>
         <div className="status-bar">
           {this.state.lastError
-           ? <ErrorMessage {...this.state.lastError} />
-           : null}
+            ? <ErrorMessage {...this.state.lastError} />
+            : null}
         </div>
       </div>
     );

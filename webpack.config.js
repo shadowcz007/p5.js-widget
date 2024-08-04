@@ -48,7 +48,7 @@ module.exports = configurations({
     'tests': './test/main.tsx'
   },
   output: {
-    filename: '[name].bundle.js'
+    filename: './dist/[name].bundle.js'
   }
 },
 {
@@ -56,6 +56,6 @@ module.exports = configurations({
   // we want the filename and path to be as simple as possible.
   entry: './lib/p5-widget.ts',
   output: {
-    filename: 'p5-widget.js'
+    filename: './dist/p5-widget.js'
   }
 });
