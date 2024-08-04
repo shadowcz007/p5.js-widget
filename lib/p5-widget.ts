@@ -11,8 +11,8 @@ const IFRAME_STYLE = [
 const AVOID_MIXED_CONTENT_WARNINGS = true;
 
 let myScriptEl = getMyScriptEl() as HTMLScriptElement;
-let myBaseURL = getMyBaseURL(myScriptEl.src);
-let autoload = !myScriptEl.hasAttribute('data-manual');
+let myBaseURL = getMyBaseURL(myScriptEl?myScriptEl.src:"");
+let autoload =myScriptEl? !myScriptEl.hasAttribute('data-manual'):false;
 let nextId = 1;
 
 function getMyBaseURL(url: string) {
