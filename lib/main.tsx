@@ -35,14 +35,27 @@ function start() {
 
   ReactDOM.render(
     <App initialContent={initialContent}
-         autosaver={new SessionStorageAutosaver(id)}
-         baseSketchURL={baseSketchURL}
-         p5version={p5version}
-         previewWidth={previewWidth}
-         maxRunTime={maxRunTime}
-         autoplay={autoplay} />,
+      autosaver={new SessionStorageAutosaver(id)}
+      baseSketchURL={baseSketchURL}
+      p5version={p5version}
+      previewWidth={previewWidth}
+      maxRunTime={maxRunTime}
+      autoplay={autoplay} />,
     document.getElementById('app-holder')
   );
 }
 
 window.addEventListener('load', start);
+
+// 监听来自iframe的消息
+window.addEventListener('message', (event) => {
+  const data = event.data;
+  if (data.from === 'p5.widget' && data.status === 'save') {
+    const frames = data.frames;
+    window.parent.postMessage({
+      frames,
+      from: 'p5.widget',
+      status: 'save'
+    }, '*');
+  }
+});
