@@ -33,7 +33,8 @@ interface AppState {
   startPlayTimestamp?: number
   previewContent?: string
   editorContent?: string
-  lastError?: ErrorMessage
+  lastError?: ErrorMessage,
+  progress?: any
 }
 
 let ErrorMessage = (props: ErrorMessage) => (
@@ -50,7 +51,8 @@ export default class App extends PureComponent<AppProps, AppState> {
       canUndo: false,
       canRedo: false,
       previewContent: this.props.initialContent,
-      editorContent: this.props.initialContent
+      editorContent: this.props.initialContent,
+      progress: 1
     };
   }
 
@@ -62,6 +64,19 @@ export default class App extends PureComponent<AppProps, AppState> {
     } else if (this.props.autoplay) {
       this.handlePlayClick();
     }
+
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (data.from === 'p5.widget' && data.status === 'capture'
+        && data.frameCount != undefined
+        && data.maxCount != undefined && data.maxCount > 0) {
+        this.setState({
+          progress: (data.frameCount / data.maxCount).toFixed(2)
+        })
+
+      }
+    });
+
   }
 
   handleEditorChange = (newValue: string, canUndo: boolean,
@@ -90,7 +105,7 @@ export default class App extends PureComponent<AppProps, AppState> {
     });
   }
 
- 
+
   handlePlayClick = () => {
     this.setState((prevState, props) => ({
       isPlaying: true,
@@ -102,6 +117,12 @@ export default class App extends PureComponent<AppProps, AppState> {
 
   handleStopClick = () => {
     this.setState({ isPlaying: false });
+
+   
+    window.parent.postMessage({ 
+      from: 'p5.widget',
+      status: 'stop'
+    }, '*');
   }
 
   handleUndoClick = () => {
@@ -129,7 +150,7 @@ export default class App extends PureComponent<AppProps, AppState> {
     return (
       <div className="app">
         <Toolbar
-        
+          progress={this.state.progress}
           onPlayClick={this.handlePlayClick}
           onStopClick={this.state.isPlaying && this.handleStopClick}
           onUndoClick={this.state.canUndo && this.handleUndoClick}

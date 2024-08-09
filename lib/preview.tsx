@@ -56,44 +56,7 @@ export default class Preview extends PureComponent<Props, State> {
       // in which case it shouldn't be emitting events anymore.
       let frame = iframe.contentWindow as PreviewFrame.Runner;
 
-//       content = content + `
-        
-//       // 保存旧的 draw 函数
-// const oldDraw = draw;
-
-// function draw() {
-// // 添加截屏功能的代码
-// if (frameCount === 1) {
-//   capturer.start();
-// }
-
-// // 调用旧的 draw 函数
-// oldDraw();
-
-// // 添加截屏功能的代码
-// if (frameCount < 60) {
-//   capturer.capture(canvas);
-// } else if (frameCount === 60) {
-//   capturer.save(function (blob) {
-//     blobToBase64(blob).then(base64String => {
-//       console.log(base64String);
-      
-//       const video = document.createElement('video');
-//       video.controls = true;
-//       video.src = base64String;
-//       video.width = 640;
-//       video.height = 360;
-
-//       document.body.appendChild(video);
-//       video.play();
-//     }).catch(error => {
-//       console.error('转换失败:', error);
-//     });
-//   });
-//   capturer.stop();
-// }
-// }
-// `
+      console.log("#p5 content",content)
 
       frame.startSketch(content, this.props.p5version, this.props.maxRunTime,
         LOOP_CHECK_FUNC_NAME,

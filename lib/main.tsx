@@ -58,4 +58,12 @@ window.addEventListener('message', (event) => {
       status: 'save'
     }, '*');
   }
+  // if (data.from === 'p5.widget' && data.status === 'capture') {
+  //   window.parent.postMessage({
+  //     from: 'p5.widget',
+  //     status: 'capture',
+  //     frameCount: data.frameCount,
+  //     maxCount: data.maxCount,
+  //   }, '*');
+  // }
 });

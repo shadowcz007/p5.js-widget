@@ -3,7 +3,7 @@ import React = require("react");
 import PureComponent from "./pure-component";
 
 interface Props {
-  
+  progress?: any,
   onPlayClick: () => void,
   onStopClick?: () => void,
   onUndoClick?: () => void,
@@ -44,30 +44,30 @@ export default class Toolbar extends PureComponent<Props, State> {
     return (
       <div className="toolbar">
         <a className="p5-logo" href="http://p5js.org/" target="_blank">
-          <img src="static/img/p5js-beta.svg" alt="p5js.org"/>
+          <img src="static/img/p5js-beta.svg" alt="p5js.org" />
         </a>
-      
+
         <button onClick={this.props.onPlayClick}>
-          <OpenIconicMediaPlay/>
+          <OpenIconicMediaPlay />
           Play
         </button>
         {this.props.onStopClick
           ? <button onClick={this.props.onStopClick}>
-              <OpenIconicMediaStop/>
-              Stop
-            </button>
-          : null }
+            <OpenIconicMediaStop />
+            Stop {this.props.progress}
+          </button>
+          : null}
         {this.props.onUndoClick
           ? <button onClick={this.props.onUndoClick}>
-              <OpenIconicActionUndo/>
-              Undo
-            </button>
+            <OpenIconicActionUndo />
+            Undo
+          </button>
           : null}
         {this.props.onRedoClick
           ? <button onClick={this.props.onRedoClick}>
-              <OpenIconicActionRedo/>
-              Redo
-            </button>
+            <OpenIconicActionRedo />
+            Redo
+          </button>
           : null}
         {this.props.onRevertClick
           ? <button onClick={this.props.onRevertClick}>Revert</button>

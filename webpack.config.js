@@ -1,6 +1,6 @@
 var _ = require('underscore');
 var webpack = require('webpack');
-
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 var production = process.env.NODE_ENV === 'production';
 
 var baseConfig = {
@@ -20,6 +20,9 @@ var baseConfig = {
     ]
   },
   plugins: [
+    // new CopyWebpackPlugin([
+    //   { from: 'p5-widget.html', to: 'p5-widget.html' }, 
+    // ])
   ].concat(
     production ? [
       new webpack.optimize.UglifyJsPlugin({
