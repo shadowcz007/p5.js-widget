@@ -20,9 +20,13 @@ var baseConfig = {
     ]
   },
   plugins: [
-    // new CopyWebpackPlugin([
-    //   { from: 'p5-widget.html', to: 'p5-widget.html' }, 
-    // ])
+    new CopyWebpackPlugin([
+      { from: 'p5-widget.html', to: 'p5-widget.html' }, 
+      // { from: 'preview-frame.html', to: 'preview-frame.html' }, 
+      // {
+      //   from:"static",to:"static"
+      // }
+    ])
   ].concat(
     production ? [
       new webpack.optimize.UglifyJsPlugin({
