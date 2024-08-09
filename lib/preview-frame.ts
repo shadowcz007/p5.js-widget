@@ -107,6 +107,8 @@ function startSketch (
     let message = e.message
     let line = undefined
 
+    // console.log(message)
+
     if (loopChecker.wasTriggered) {
       message = 'Your loop is taking too long to run.'
       line = loopChecker.getLineNumber()

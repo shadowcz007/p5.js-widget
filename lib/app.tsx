@@ -117,8 +117,6 @@ export default class App extends PureComponent<AppProps, AppState> {
 
   handleStopClick = () => {
     this.setState({ isPlaying: false });
-
-   
     window.parent.postMessage({ 
       from: 'p5.widget',
       status: 'stop'

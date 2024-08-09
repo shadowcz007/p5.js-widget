@@ -54,7 +54,7 @@ export default class Toolbar extends PureComponent<Props, State> {
         {this.props.onStopClick
           ? <button onClick={this.props.onStopClick}>
             <OpenIconicMediaStop />
-            Stop {this.props.progress}
+            Stop
           </button>
           : null}
         {this.props.onUndoClick

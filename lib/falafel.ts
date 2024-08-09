@@ -5,6 +5,9 @@ import esprima = require('esprima')
 
 let parse = esprima.parse
 
+const LOOP_CHECK_FUNC_NAME = '__loopCheck';
+
+
 export default function (src, opts, fn) {
   if (typeof opts === 'function') {
     fn = opts
@@ -126,6 +129,7 @@ function addCapturer (node, chunks) {
       chunks.splice(endInsertPos, 0, '\ncapturer_end();')
     }
   }
+
 
   return node
 }

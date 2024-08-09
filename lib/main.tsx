@@ -43,27 +43,26 @@ function start() {
       autoplay={autoplay} />,
     document.getElementById('app-holder')
   );
+
+
+  // 监听来自iframe的消息
+  window.addEventListener('message', (event) => {
+    const data = event.data;
+    // console.log("#main", data)
+    if (data.from === 'p5.widget' && data.status === 'save') {
+      const frames = data.frames;
+      window.parent.postMessage({
+        frames,
+        from: 'p5.widget',
+        status: 'save',
+        _from: "main"
+      }, '*');
+    }
+
+  });
+
 }
 
 window.addEventListener('load', start);
 
-// 监听来自iframe的消息
-window.addEventListener('message', (event) => {
-  const data = event.data;
-  if (data.from === 'p5.widget' && data.status === 'save') {
-    const frames = data.frames;
-    window.parent.postMessage({
-      frames,
-      from: 'p5.widget',
-      status: 'save'
-    }, '*');
-  }
-  // if (data.from === 'p5.widget' && data.status === 'capture') {
-  //   window.parent.postMessage({
-  //     from: 'p5.widget',
-  //     status: 'capture',
-  //     frameCount: data.frameCount,
-  //     maxCount: data.maxCount,
-  //   }, '*');
-  // }
-});
+
