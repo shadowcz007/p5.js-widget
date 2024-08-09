@@ -22,20 +22,19 @@ interface State {
 
 }
 
+
 export default class Preview extends PureComponent<Props, State> {
   _iframe: HTMLIFrameElement
 
   resetIframe() {
     let content = this.props.content;
 
-
     content = makeImplicitSketch(content);
 
     try {
-      content = falafel(content, {}, LoopInserter(function (node) {
-        return LOOP_CHECK_FUNC_NAME + "(" +
-          JSON.stringify(node.range) + ");";
-      })).toString();
+      content = falafel(content, {},LoopInserter(function (node) {
+        return LOOP_CHECK_FUNC_NAME + "(" + JSON.stringify(node.range) + ");";
+      })).toString()
     } catch (e) {
       // There's almost definitely a syntax error in the user's code;
       // just leave it unmangled and let the preview frame bubble up

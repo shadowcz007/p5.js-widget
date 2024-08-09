@@ -32,9 +32,9 @@ export default function (src, opts, fn) {
   }
   var index = 0
 
-  ;(function walk (node: any, parent) {
+  ;(function walk (node, parent) {
     insertHelpers(node, parent, result.chunks)
-    node = addCapturer(node, result.chunks);
+    node = addCapturer(node, result.chunks)
     Object.keys(node).forEach(function (key) {
       if (key === 'parent') return
 
@@ -54,7 +54,6 @@ export default function (src, opts, fn) {
     fn(node)
   })(ast, undefined)
 
-  
   return result
 }
 
@@ -85,48 +84,48 @@ function insertHelpers (node, parent, chunks) {
   }
 }
 
-function addCapturer(node, chunks) {
-    // Check if the node is a function declaration named 'draw'
-    if (
-      node.type === 'FunctionDeclaration' &&
-      node.id &&
-      node.id.name === 'draw'
-    ) {
-      console.log('#Found draw function:', node);
-  
-      let hasCapturerStart = false;
-      let hasCapturerEnd = false;
-  
-      // Traverse the function body to check for `capturer_start()` and `capturer_end()`
-      (function checkCapturerCalls(bodyNode) {
-        if (
-          bodyNode.type === 'CallExpression' &&
-          bodyNode.callee &&
-          bodyNode.callee.type === 'Identifier'
-        ) {
-          if (bodyNode.callee.name === 'capturer_start') {
-            hasCapturerStart = true;
-          } else if (bodyNode.callee.name === 'capturer_end') {
-            hasCapturerEnd = true;
-          }
+function addCapturer (node, chunks) {
+  // Check if the node is a function declaration named 'draw'
+  if (
+    node.type === 'FunctionDeclaration' &&
+    node.id &&
+    node.id.name === 'draw'
+  ) {
+    console.log('#Found draw function:', node)
+
+    let hasCapturerStart = false
+    let hasCapturerEnd = false
+
+    // Traverse the function body to check for `capturer_start()` and `capturer_end()`
+    ;(function checkCapturerCalls (bodyNode) {
+      if (
+        bodyNode.type === 'CallExpression' &&
+        bodyNode.callee &&
+        bodyNode.callee.type === 'Identifier'
+      ) {
+        if (bodyNode.callee.name === 'capturer_start') {
+          hasCapturerStart = true
+        } else if (bodyNode.callee.name === 'capturer_end') {
+          hasCapturerEnd = true
         }
-        if (bodyNode.body && Array.isArray(bodyNode.body)) {
-          bodyNode.body.forEach(checkCapturerCalls);
-        }
-      })(node.body);
-  
-      if (!hasCapturerStart) {
-        console.log('capturer_start() not found in draw function, adding it.');
-        const startInsertPos = node.body.range[0] + 1;
-        chunks.splice(startInsertPos, 0, 'capturer_start();\n');
       }
-  
-      if (!hasCapturerEnd) {
-        console.log('capturer_end() not found in draw function, adding it.');
-        const endInsertPos = node.body.range[1] - 1;
-        chunks.splice(endInsertPos, 0, '\ncapturer_end();');
+      if (bodyNode.body && Array.isArray(bodyNode.body)) {
+        bodyNode.body.forEach(checkCapturerCalls)
       }
+    })(node.body)
+
+    if (!hasCapturerStart) {
+      console.log('capturer_start() not found in draw function, adding it.')
+      const startInsertPos = node.body.range[0] + 1
+      chunks.splice(startInsertPos, 0, 'capturer_start();\n')
     }
-  
-    return node;
+
+    if (!hasCapturerEnd) {
+      console.log('capturer_end() not found in draw function, adding it.')
+      const endInsertPos = node.body.range[1] - 1
+      chunks.splice(endInsertPos, 0, '\ncapturer_end();')
+    }
   }
+
+  return node
+}
